@@ -8,12 +8,12 @@ metadata:
     app: pod-info
 spec:
   replicas: 3
-  selector:
+  selector:              # 1. The Controller's Selector
     matchLabels:
       app: pod-info
-  template:
+  template:              # 2. The Pod Template Blueprint
     metadata:
-      labels:
+      labels:            # 3. Must match the selector above!
         app: pod-info
     spec:
       containers:
@@ -34,3 +34,13 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: status.podIP
+
+
+# kubectl apply -f deployment.yaml
+# kubectl get deployments -n development
+# kubectl get pods -n development
+
+# kubectl delete pod pod-name -n development
+# kubectl describe pod pod-name -n development
+
+# kubectl delete deployment deployment-name -n development
