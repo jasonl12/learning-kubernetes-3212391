@@ -24,8 +24,14 @@ spec:
         args: [ "while true; do sleep 30; done;" ]
         resources:
           requests:
-            cpu: 30m
+            cpu: 30m        # Guaranteed 3% of a core to be scheduled
             memory: 64Mi
           limits:
-            cpu: 100m
+            cpu: 100m       # Throttled if use more than 10% of a core
             memory: 128Mi
+
+
+# kubectl apply -f busybox.yaml
+# kubectl get pods -n development -o wide
+
+# kubectl exec busybox-pod-name -- wget -O - pod-info-deployment-ip:3000
