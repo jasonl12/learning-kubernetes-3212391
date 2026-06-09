@@ -26,9 +26,11 @@ spec:
           limits:
             memory: "128Mi"
             cpu: "500m"
-        securityContext:
+        securityContext:      # Container-level fine-grained hardening
           allowPrivilegeEscalation: false
           runAsNonRoot: true
+          runAsUser: 1000
+          runAsGroup: 1000
           capabilities:
             drop:
               - ALL
@@ -48,3 +50,19 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: status.podIP
+
+
+# snyk auth
+# snyk iac test deployment.yaml
+# [Medium] Container or Pod is running without root user control
+# [Medium] Container does not drop all default capabilities
+# [Medium] Container is running without privilege escalation control
+
+# snyk iac test secure-deployment.yaml
+
+# kubectl describe pod pod-name
+# kubectl apply -f secure-deployment.yaml
+# kubectl get pods -l app=pod-info -n development
+
+# Verify Active Process Permissions (Runtime Test)
+# kubectl exec -it pod-name -n development -- id
